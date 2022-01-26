@@ -1,0 +1,21 @@
+# This file contains the AWS common configuration per environment
+# - AWS Account IDs
+# - Shared VPC IDs
+# - Shared VPC Security groups
+# - Shared VPC Subnet IDs (private-a, private-b, private-c)
+awsConfig:
+  dev:
+    account: 123
+    securityGroupIds: sg-0000
+    subnetIds: subnet-0000
+  prd:
+    account: xxxxxxx
+    vpc:
+      id: vpc-xxxxx
+      name: prod_vpc
+    securityGroupIds:
+      - sg-xxxx
+    subnetIds:
+      - subnet-x
+      - subnet-x
+      - subnet-x
