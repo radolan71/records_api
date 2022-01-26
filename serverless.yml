@@ -1,0 +1,102 @@
+# ----------------------------
+# Service
+# ----------------------------
+service: getir-challenge
+
+# ----------------------------
+# Provider
+# ----------------------------
+provider:
+  name: aws
+  region: eu-west-1
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  iam:
+    role: arn:aws:iam::${file(./resources/aws.yml):awsConfig.${self:provider.stage}.account}:role/aws-lambda-attribution-api-exec-role
+  memorySize: 256
+  timeout: 30
+  deploymentBucket:
+    name: getir-challenge-${self:provider.stage}
+  lambdaHashingVersion: 20201221
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+
+# ----------------------------
+# Package
+# ----------------------------
+useDotenv: true
+
+# ----------------------------
+# Plugins
+# ----------------------------
+plugins:
+  - serverless-offline
+
+# ----------------------------
+# Functions
+# ----------------------------
+functions:
+  api:
+    handler: dist/main.handler
+    description: getir-challenge
+    environment: ${self:custom.envVars.${self:provider.stage}}
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors:
+            origin: '*'
+            headers:
+              - Accept
+              - Content-Type
+              - Authorization
+              - X-Requested-With
+              - Cache-Control
+              - X-cache-refresh
+      - http:
+          path: '{proxy+}'
+          method: ANY
+          cors:
+            origin: '*'
+            headers:
+              - Accept
+              - Content-Type
+              - Authorization
+              - X-Requested-With
+              - Cache-Control
+              - X-cache-refresh
+    vpc:
+      securityGroupIds: ${file(./resources/aws.yml):awsConfig.${self:provider.stage}.securityGroupIds}
+      subnetIds: ${file(./resources/aws.yml):awsConfig.${self:provider.stage}.subnetIds}
+
+# ----------------------------
+# Resources
+# ----------------------------
+
+# ----------------------------
+# Custom configs
+# ----------------------------
+custom:
+  serverless-offline:
+    httpPort: 4000
+    lambdaPort: 4002
+  awsAccount: ${file(resources/aws.yml)}
+  baseApiUri: v${self:custom.apiVersion}
+  apiVersion: 1
+
+  envVars:
+    common: &common
+      BASE_API_URI: ${self:custom.baseApiUri}
+      ENV: ${self:provider.stage}
+      #normally i would story in a SSM Parameter instead of hardcoding it
+      DATABASE_URL: mongodb+srv://challengeUser:WUMglwNBaydH8Yvu@challenge-xzwqd.mongodb.net/getir case-study?retryWrites=true
+    general: &general
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    prd:
+      <<: [*common, *general]
+    dev:
+      <<: [*common]
+
+# Disables warning for configuration names
+configValidationMode: off
