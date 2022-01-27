@@ -34,15 +34,17 @@ export class RecordService {
           {
             $group: {
               _id: '$_id',
+              key: { $first: '$_id' },
+              createdAt: { $first: '$createdAt' },
               totalCount: { $sum: '$counts' },
             },
           },
           {
             $project: {
               _id: 0,
-              key: '$_id',
+              key: 1,
               createdAt: 1,
-              totalCount: '$totalCount',
+              totalCount: 1,
             },
           },
         ]),
