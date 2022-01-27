@@ -55,17 +55,11 @@ export class RecordService {
       const pagination = {
         page: req.query.page ?? 1,
         per_page: limit,
-        page_count: array.length,
+        page_count: pageCount,
         total_count: itemCount,
       };
 
       return resolve({ records: array as Record[], pagination: pagination });
     });
   }
-
-  // getByConditions(request: RecordSearchRequest): Promise<Record[]> {
-  //   return new Promise((resolve, reject) => {
-  //     return resolve([]);
-  //   });
-  // }
 }

@@ -17,16 +17,4 @@ export class RecordController {
       createResponse(res, 200, 0, '', result.records, [], result.pagination);
     });
   };
-
-  //   getByConditions(req: Request, res: Response): void {
-  //     Promise.resolve(service().getByConditions(req.body)).then((result) => {
-  //       if (!result) {
-  //         res.status(404).send({
-  //           error: [{ description: `Record with condition(s) ${JSON.stringify(req.query)} not found ` }],
-  //         });
-  //       } else {
-  //         res.status(200).json(result);
-  //       }
-  //     });
-  //   }
 }
