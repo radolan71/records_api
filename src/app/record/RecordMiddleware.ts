@@ -1,6 +1,7 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
-import { validateIsoDate } from '../../common/validators';
+import { createResponse } from '../../common/responseHelper';
+import { validateDate } from '../../common/validators';
 
 export class RecordMiddleware {
   private static instance: RecordMiddleware;
@@ -15,12 +16,12 @@ export class RecordMiddleware {
   async validateFields(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     await body('maxCount').notEmpty().isInt().run(req);
     await body('minCount').notEmpty().isInt().run(req);
-    await body('startDate').notEmpty().custom(validateIsoDate).run(req);
-    await body('endDate').notEmpty().custom(validateIsoDate).run(req);
+    await body('startDate').notEmpty().custom(validateDate).run(req);
+    await body('endDate').notEmpty().custom(validateDate).run(req);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400).send({ errors: errors.array() });
+      createResponse(res, 400, 0, 'Validation Error', [], errors.array());
       return;
     }
 

@@ -1,8 +1,10 @@
 import Logger, { createLogger, LogLevel } from 'bunyan';
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
+import paginate from 'express-paginate';
 import { join } from 'path';
-import { ConnectionOptions, Database } from './Database';
+import { authenticate } from './authentication';
+import { ConnectionOptions, DatabaseManager } from './DatabaseManager';
 import router from './router';
 
 export interface ApplicationOptions {
@@ -14,15 +16,22 @@ export class Application {
   // Singleton application
   private static app: Express;
   public static logger: Logger;
-  public static databaseManager: Database;
-  //   public static database: Mongoose;
+  public static databaseManager: DatabaseManager;
 
   /**
    * Returns an Express Application with an active database connection
    * @param options
    */
-  public static async getApp(app: Express, options: ApplicationOptions): Promise<express.Application> {
-    if (this.app) return this.app;
+  public static async getApp(app?: Express, options?: ApplicationOptions): Promise<Application> {
+    if (this.app !== undefined) return this;
+
+    if (!app) {
+      throw new Error('Application has not been initialized yet');
+    }
+
+    if (!options) {
+      throw new Error('Missing basic app condiguration');
+    }
 
     // Project metadata
     /* eslint @typescript-eslint/no-var-requires: "off" */
@@ -44,7 +53,7 @@ export class Application {
     });
 
     // Create database Manager instance
-    this.databaseManager = new Database(options.connectionOptions as ConnectionOptions, this.logger);
+    this.databaseManager = new DatabaseManager(options.connectionOptions as ConnectionOptions, this.logger);
     await this.databaseManager.initialize();
 
     // Express Application
@@ -58,13 +67,13 @@ export class Application {
     this.app.use(express.json());
 
     //configure logging middleware
-    const loggingMiddleware = (req: Request, res: Response, next: express.NextFunction) => {
-      this.logger.info(`REQUEST ${req.method} ${req.url}`);
-      res.on('finish', () => {
-        this.logger.info(`RESPONSE ${res.statusCode} ${req.method} ${req.url}`);
-      });
-      next();
-    };
+    // const loggingMiddleware = (req: Request, res: Response, next: express.NextFunction) => {
+    //   this.logger.info(`REQUEST ${req.method} ${req.url}`);
+    //   res.on('finish', () => {
+    //     this.logger.info(`RESPONSE ${res.statusCode} ${req.method} ${req.url}`);
+    //   });
+    //   next();
+    // };
     //configure page nor found middleware
     const pageNotFound = (req: Request, res: Response, next: express.NextFunction) => {
       let body;
@@ -87,7 +96,10 @@ export class Application {
       next(err);
     };
 
-    this.app.use(loggingMiddleware);
+    this.app.use(paginate.middleware(10, 50));
+    this.app.use(authenticate);
+
+    // this.app.use(loggingMiddleware);
     // Set route Base URL `/v1/`
     this.app.use(`/${process.env.BASE_API_URI}`, router);
     // Handle when router did not match
