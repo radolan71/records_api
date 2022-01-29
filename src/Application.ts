@@ -12,14 +12,16 @@ export interface ApplicationOptions {
   connectionOptions: ConnectionOptions;
 }
 
-// Singleton application
 let app: Express;
 let logger: Logger;
 export let databaseManager: DatabaseManager;
 
 /**
  * Returns an Express Application with an active database connection
+ *
+ * @param appParameter
  * @param options
+ * @returns
  */
 export const getApp = async (appParameter?: Express, options?: ApplicationOptions): Promise<Application> => {
   if (app !== undefined) return app;

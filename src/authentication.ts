@@ -6,6 +6,14 @@ const UNATHORIZED_RESPONSE = {
   statusDescription: 'Unauthorized',
 };
 
+/**
+ * Authentication middleware
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 export async function authenticate(
   req: express.Request,
   res: express.Response,

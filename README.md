@@ -45,7 +45,7 @@ export AWS_DEFAULT_REGION=us-west-2
 ## Shorcuts used
 
 - This project uses serverless framework to provision and deploy, instead of Terradorm or Cloudformation to provision and a proper pipeline to deploy.
-- This API runs usin Lambda for computing instead of ECS or EC2.
+- This API runs using Lambda for computing instead of ECS or EC2. Colds starts can be solved by using Provisioned Concurrency.
 - Basic authentication is implemented.
 
 ## Arquitecture

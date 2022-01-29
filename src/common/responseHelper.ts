@@ -20,6 +20,17 @@ export interface ResponseMetadata {
   total_count: number;
 }
 
+/**
+ * Standarize the way responses are send back to the requester
+ *
+ * @param res
+ * @param httpCode
+ * @param appCode
+ * @param message
+ * @param records
+ * @param errors
+ * @param metadata
+ */
 export const createResponse = (
   res: Response,
   httpCode = 200,
