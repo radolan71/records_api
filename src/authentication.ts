@@ -18,7 +18,7 @@ export async function authenticate(
     return res.status(UNATHORIZED_RESPONSE.status).send(UNATHORIZED_RESPONSE.statusDescription);
   }
 
-  let response = UNATHORIZED_RESPONSE;
+  const response = UNATHORIZED_RESPONSE;
 
   const token = req.headers.authorization?.replace('Bearer ', '');
   if (token === 'getir-challenge') {

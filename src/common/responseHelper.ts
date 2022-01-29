@@ -22,9 +22,9 @@ export interface ResponseMetadata {
 
 export const createResponse = (
   res: Response,
-  httpCode: number = 200,
-  appCode: number = 0,
-  message: string = '',
+  httpCode = 200,
+  appCode = 0,
+  message = '',
   records: Record[] = [],
   errors: ValidationError[] = [],
   metadata: Partial<ResponseMetadata> = {},
