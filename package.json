@@ -10,7 +10,8 @@
     "lint": "eslint '*/**/*.ts' --fix",
     "test": "./node_modules/.bin/jest",
     "test:unit": "./node_modules/.bin/jest --testNamePattern='Unit.*'",
-    "test:int": "./node_modules/.bin/jest --testNamePattern='Int.*'"
+    "test:int": "./node_modules/.bin/jest --testNamePattern='Int.*'",
+    "build": "tsc"
   },
   "author": "Eduardo Hernandez",
   "license": "ISC",
