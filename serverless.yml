@@ -9,15 +9,26 @@ service: getir-challenge
 provider:
   name: aws
   region: eu-west-1
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
-  iam:
-    role: arn:aws:iam::${file(./resources/aws.yml):awsConfig.${self:provider.stage}.account}:role/aws-lambda-attribution-api-exec-role
-  memorySize: 256
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - s3:GetObject
+        - s3:PutObject
+        - s3:ListBucket
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+        - lambda:InvokeFunction
+        - lambda:InvokeAsync
+        - secretsmanager:GetSecretValue
+        - secretsmanager:CreateSecret
+        - secretsmanager:RotateSecret
+      Resource: '*'
+  memorySize: 128
   timeout: 30
-  deploymentBucket:
-    name: getir-challenge-${self:provider.stage}
-  lambdaHashingVersion: 20201221
+  lambdaHashingVersion: 20210129
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
@@ -66,9 +77,9 @@ functions:
               - X-Requested-With
               - Cache-Control
               - X-cache-refresh
-    vpc:
-      securityGroupIds: ${file(./resources/aws.yml):awsConfig.${self:provider.stage}.securityGroupIds}
-      subnetIds: ${file(./resources/aws.yml):awsConfig.${self:provider.stage}.subnetIds}
+    # vpc:
+    #   securityGroupIds: ${file(./resources/aws.yml):awsConfig.${self:provider.stage}.securityGroupIds}
+    #   subnetIds: ${file(./resources/aws.yml):awsConfig.${self:provider.stage}.subnetIds}
 
 # ----------------------------
 # Resources
@@ -81,7 +92,6 @@ custom:
   serverless-offline:
     httpPort: 4000
     lambdaPort: 4002
-  awsAccount: ${file(resources/aws.yml)}
   baseApiUri: v${self:custom.apiVersion}
   apiVersion: 1
 
