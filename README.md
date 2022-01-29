@@ -18,6 +18,20 @@ This project uses jest and supertest for testing.
 - `npm run test:int` Run Integration Tests
 - `npm run test:unit` Run unit tests
 
+## Deploy
+
+- Make sure you have the aws cli configured.
+- Create IAM user for serverless frawework. And create a policy for it using the least previlege principle. Learn more about this is [here](https://www.serverless.com/blog/abcs-of-iam-permissions/#managing-permissions-for-the-serverless-framework-user).
+- Generate AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.
+- [Configure aws cli](https://aws.amazon.com/getting-started/guides/setup-environment/module-three/) to use the recently created keys or export them inline as follows:
+
+```console	
+export AWS_ACCESS_KEY_ID=<your-key-here>
+export AWS_SECRET_ACCESS_KEY=<your-secret-key-here>
+export AWS_DEFAULT_REGION=us-west-2
+```
+- run `npm run build`
+- run `serverless deploy`
 
 ## What went well
 - Set up project
