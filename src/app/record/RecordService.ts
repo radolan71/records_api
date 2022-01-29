@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { Application } from '../../Application';
+import { Application } from '../../application';
 import { Record } from './RecordEntity';
 import { RecordSearchRequest } from './RecordMiddleware';
 

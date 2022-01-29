@@ -2,7 +2,7 @@ import express from 'express';
 import { Server } from 'http';
 import { Db, MongoClient } from 'mongodb';
 import supertest from 'supertest';
-import { Application, ApplicationOptions } from '../../Application';
+import { Application, ApplicationOptions } from '../../application';
 
 // Set env to test
 process.env.NODE_ENV = 'test';

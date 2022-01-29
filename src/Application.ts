@@ -3,7 +3,7 @@ import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import { join } from 'path';
 import { authenticate } from './authentication';
-import { ConnectionOptions, DatabaseManager } from './DatabaseManager';
+import { ConnectionOptions, DatabaseManager } from './databaseManager';
 import router from './router';
 
 export interface ApplicationOptions {

@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyStructuredResultV2, Context } from 'aws-lambda';
 import express from 'express';
 import serverlessHttp from 'serverless-http';
-import { Application, ApplicationOptions } from './Application';
+import { Application, ApplicationOptions } from './application';
 
 const app = express();
 
