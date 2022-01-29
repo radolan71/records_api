@@ -97,7 +97,9 @@ export class Application {
     };
 
     this.app.use(paginate.middleware(10, 50));
-    this.app.use(authenticate);
+    if (process.env.NODE_ENV !== 'test') {
+      this.app.use(authenticate);
+    }
 
     // this.app.use(loggingMiddleware);
     // Set route Base URL `/v1/`
