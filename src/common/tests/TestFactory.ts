@@ -2,7 +2,7 @@ import express from 'express';
 import { Server } from 'http';
 import { Db, MongoClient } from 'mongodb';
 import supertest from 'supertest';
-import { Application, ApplicationOptions } from '../../application';
+import { ApplicationOptions, databaseManager, getApp } from '../../application';
 
 // Set env to test
 process.env.NODE_ENV = 'test';
@@ -51,7 +51,7 @@ export class TestFactory {
       },
     };
 
-    const configuredApp = await Application.getApp(express(), options);
+    const configuredApp = await getApp(express(), options);
     if (!configuredApp) {
       throw Error('Unable to configure testing app');
     }
@@ -59,8 +59,8 @@ export class TestFactory {
     this.app = configuredApp as express.Application;
     this.server = await this.app.listen(0, HOST);
 
-    this.connection = Application.databaseManager.client;
-    this.db = Application.databaseManager.database;
+    this.connection = databaseManager.client;
+    this.db = databaseManager.database;
     await this.seedDatabase();
     this.initialized = true;
   }

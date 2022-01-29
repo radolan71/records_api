@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { Application } from '../../application';
+import { databaseManager } from '../../application';
 import { Record } from './RecordEntity';
 import { RecordSearchRequest } from './RecordMiddleware';
 
@@ -20,7 +20,7 @@ export class RecordService {
         createdAt: { $gte: new Date(body.startDate), $lte: new Date(body.endDate) },
       };
       const countQuery = { totalCount: { $gte: body.minCount, $lte: body.maxCount } };
-      const collection = Application.databaseManager.database.collection('records');
+      const collection = databaseManager.database.collection('records');
       const limit = req.query.limit ? parseInt(req.query.limit.toString()) : 100;
       const results = await collection.aggregate([
         {

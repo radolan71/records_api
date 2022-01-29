@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyStructuredResultV2, Context } from 'aws-lambda';
 import express from 'express';
 import serverlessHttp from 'serverless-http';
-import { Application, ApplicationOptions } from './application';
+import { ApplicationOptions, getApp } from './application';
 
 const app = express();
 
@@ -18,7 +18,8 @@ export const handler = async (
   context: Context,
 ): Promise<APIGatewayProxyStructuredResultV2> => {
   // Start Application
-  const configuredApp = await Application.getApp(app, options);
+  const configuredApp = await getApp(app, options);
   const expressHandler = serverlessHttp(configuredApp as serverlessHttp.Application);
+  context.callbackWaitsForEmptyEventLoop = false;
   return await expressHandler(event, context);
 };
