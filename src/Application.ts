@@ -1,7 +1,6 @@
 import Logger, { createLogger, LogLevel } from 'bunyan';
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
-import paginate from 'express-paginate';
 import { join } from 'path';
 import { authenticate } from './authentication';
 import { ConnectionOptions, DatabaseManager } from './DatabaseManager';
@@ -74,6 +73,7 @@ export class Application {
     //   });
     //   next();
     // };
+
     //configure page nor found middleware
     const pageNotFound = (req: Request, res: Response, next: express.NextFunction) => {
       let body;
@@ -96,12 +96,12 @@ export class Application {
       next(err);
     };
 
-    this.app.use(paginate.middleware(10, 50));
     if (process.env.NODE_ENV !== 'test') {
       this.app.use(authenticate);
     }
 
     // this.app.use(loggingMiddleware);
+
     // Set route Base URL `/v1/`
     this.app.use(`/${process.env.BASE_API_URI}`, router);
     // Handle when router did not match
