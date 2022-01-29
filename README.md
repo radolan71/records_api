@@ -1,18 +1,63 @@
+# Challenge
+
+## Local set up
+
+1. `npm i`
+2. `npm run start`
+
+## Calling the API
+
+- This api has a basic token based auth method using the fixed token `getir-challenge`.
+- This api has a basic pagination implemented the default is 100 rows per page, it can be modified trough the query string parameter `?limit=10`
+  
+## Test
+
+This project uses jest and supertest for testing. 
+
+- `npm run test`  Run all test
+- `npm run test:int` Run Integration Tests
+- `npm run test:unit` Run unit tests
 
 
+## What went well
+- Set up project
+- Set up unit tests
+- Set up communication with the db
 
-## Crucial 
-[] Delivering a Working RESTful API. 
-[] Clean and Production Ready Code 
-[] Error Handling 
-[] Comments and Documentation 
-[] Unit and/or Integration Tests (Jest is preferable but Mocha also works) 
-[] Avoid Over Engineering 
+## What did not went well
+- Building the mongo query was a bit challenging.
+- Seeting up the in memory db, there was some compatibility issues.
+
+## Shorcuts used
+
+- This project uses serverless framework to provision and deploy, instead of Terradorm or Cloudformation to provision and a proper pipeline to deploy.
+- This API runs usin Lambda for computing instead of ECS or EC2.
+- Basic authentication is implemented.
+
+## Arquitecture
+
+- This API is using `typescript`.
+- This API is usign `mongodb` library to communicate with the database.
+- The API code is organized by modules. This is means each endpoint will have its own sufolder inside the `src/app` folder.
+- It is intented that each module has the following files: 
+  - Routes -> Middleware(optional) -> Controller -> Service -> Entity.
+- Integration tests use in memory db, see `src/common/tests/TestFactory.ts`
 
 # TODO
-[X] Set up
-[] Connect to DB
-[] Build Service, Repo ( modular app )
-[] Deploy
-[] Paggination
-[] Authentication
+
+## Crucial 
+- [ ] Delivering a Working RESTful API. 
+- [ ] Clean and Production Ready Code 
+- [x] Error Handling 
+- [x] Comments and Documentation 
+- [x] Unit and/or Integration Tests (Jest is preferable but Mocha also works) 
+- [x] Avoid Over Engineering 
+
+## My tasks
+- [x] Set up
+- [x] Connect to DB
+- [x] Build Service, Repo ( modular app )
+- [x] Tests
+- [ ] Deploy
+- [x] Pagination
+- [x] Authentication
