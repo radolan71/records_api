@@ -4,17 +4,9 @@ import { RecordService } from './RecordService';
 
 const service = () => RecordService.getInstance();
 
-export interface RecordSearchRequest {
-  startDate: string;
-  endDate: string;
-  minCount: number;
-  maxCount: number;
-}
-
 export class RecordController {
-  getByConditions = (req: Request, res: Response): void => {
-    Promise.resolve(service().getByConditions(req)).then((result) => {
-      createResponse(res, 200, 0, '', result.records, [], result.pagination);
-    });
+  getByConditions = async (req: Request, res: Response): Promise<void> => {
+    const result = await service().getByConditions(req);
+    createResponse(res, 200, 0, '', result.records, [], result.pagination);
   };
 }
