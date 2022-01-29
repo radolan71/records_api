@@ -1,11 +1,8 @@
 import express from 'express';
 import { Server } from 'http';
 import { Db, MongoClient } from 'mongodb';
-import * as path from 'path';
 import supertest from 'supertest';
 import { Application, ApplicationOptions } from '../../Application';
-
-const root: string = path.resolve(__dirname, '../../..');
 
 // Set env to test
 process.env.NODE_ENV = 'test';
@@ -47,7 +44,6 @@ export class TestFactory {
     if (this.initialized) {
       return;
     }
-    // console.log(new Date().toLocaleString() + ': Initialising Factory');
     const options: ApplicationOptions = {
       logLevel: process.env.LOG_LEVEL || 'debug',
       connectionOptions: {
@@ -66,10 +62,6 @@ export class TestFactory {
     this.connection = Application.databaseManager.client;
     this.db = Application.databaseManager.database;
     await this.seedDatabase();
-
-    // console.log(await this.db.collection('records').find({}).toArray());
-
-    // console.log(new Date().toLocaleString() + ': Test Factory Initialised');
     this.initialized = true;
   }
 
@@ -102,27 +94,10 @@ export class TestFactory {
     await records.insertMany(mockRecords);
   }
 
-  // /**
-  //  * Loads the fixtures to the Database
-  //  */
-  // private async loadFixtures(): Promise<void> {
-  //   const loader = new Loader();
-  //   loader.load(path.resolve(`${root}/src/common/tests/fixtures`));
-
-  //   const resolver = new Resolver();
-  //   const fixtures = resolver.resolve(loader.fixtureConfigs);
-  //   const builder = new Builder(this.connection, new Parser());
-  //   for (const fixture of fixturesIterator(fixtures)) {
-  //     const entity = await builder.build(fixture);
-  //     await this.connection.manager.save(entity);
-  //   }
-  // }
-
   /**
    * Close server and DB connection
    */
   public async close(): Promise<void> {
-    // console.log(new Date().toLocaleString() + ': Test Factory Close Connections');
     await this.server.close();
     await this.connection.close();
   }
