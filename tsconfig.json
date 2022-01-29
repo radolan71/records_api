@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "CommonJS",
     "esModuleInterop": true,
-    "target": "ES2017",
+    "target": "ES6",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
@@ -17,6 +17,6 @@
     "strictPropertyInitialization": false,
     "types": ["jest", "chai", "node"]
   },
-  "exclude": ["node_modules", "**/*.spec.ts", "src/migration/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts", "src/migration/*.ts", "**/*.test.ts"],
   "include": ["src/**/*"]
 }
