@@ -51,7 +51,7 @@ export class RecordService {
         },
         {
           $facet: {
-            paginatedResults: [{ $skip: req.skip ?? 0 }, { $limit: limit }],
+            paginatedResults: [{ $skip: req.query.skip ?? 0 }, { $limit: limit }],
             totalCount: [
               {
                 $count: 'count',
@@ -61,7 +61,7 @@ export class RecordService {
         },
       ]);
       const array = await results.toArray();
-      const itemCount = array && array[0] && array[0].totalCount.lenght ? array[0].totalCount[0].count : 0;
+      const itemCount = array && array[0] && array[0].totalCount.length ? array[0].totalCount[0].count : 0;
       const pageCount = Math.ceil(itemCount / limit);
       const pagination = {
         page: req.query.page ?? 1,
