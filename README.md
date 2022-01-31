@@ -58,10 +58,9 @@ Lint the project by running `npm run lint` small fixes are done automaticallly.
 - Set up communication with the db
 
 ## What did not went well
-- Building the mongo query was a bit challenging.
 - Seeting up the in memory db, there was some compatibility issues.
-- While runnign the app on aws there was a strange issue with the trasnpiled code that forced me to refactor one file on my project, this implied some research and troubleshooting but at the end it got fixed.
-- 
+- While running the app on aws there was a strange issue with the transpiled code that forced me to refactor one file on my project, this implied some research and troubleshooting but at the end it got fixed.
+
 ## Calling the API
 
 - This api has a basic token based auth method using the fixed token `getir-challenge`.
