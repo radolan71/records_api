@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "target": "ES6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "src",
+    "paths": {
+      "*": ["node_modules/*"]
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "types": ["jest", "chai", "node"]
+  },
+  "exclude": ["node_modules", "**/*.spec.ts", "src/migration/*.ts", "**/*.test.ts"],
+  "include": ["src/**/*"]
+}
