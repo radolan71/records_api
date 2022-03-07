@@ -46,20 +46,11 @@ Lint the project by running `npm run lint` small fixes are done automaticallly.
   - Routes -> Middleware(optional) -> Controller -> Service -> Entity.
 - Integration tests use in memory db, see `src/common/tests/TestFactory.ts`
 
-## Shorcuts used
+## Good To Know
 
 - This project uses serverless framework to provision and deploy, instead of Terradorm or Cloudformation to provision and a proper pipeline to deploy.
 - This API runs using Lambda for computing instead of ECS or EC2. Colds starts can be solved by using Provisioned Concurrency.
 - Basic authentication is implemented.
-
-## What went well
-- Set up project
-- Set up unit tests
-- Set up communication with the db
-
-## What did not went well
-- Seeting up the in memory db, there was some compatibility issues.
-- While running the app on aws there was a strange issue with the transpiled code that forced me to refactor one file on my project, this implied some research and troubleshooting but at the end it got fixed.
 
 ## Calling the API
 
@@ -67,11 +58,11 @@ Lint the project by running `npm run lint` small fixes are done automaticallly.
 - This api has a basic pagination implemented the default is 100 rows per page, it can be modified trough the query string parameter `?limit=10`
 
 ### Valid URL Calls
-- POST https://3ce18bgshb.execute-api.eu-west-1.amazonaws.com/dev/v1/records?limit=100 (passing the limit in this way for a POST request feels strange for me , i would have used GET instead)
-- POST https://3ce18bgshb.execute-api.eu-west-1.amazonaws.com/dev/v1/records
-- GET https://3ce18bgshb.execute-api.eu-west-1.amazonaws.com/dev/v1
+- POST https://{api_url}/v1/records?limit=100 (passing the limit in this way for a POST request feels strange for me , i would have used GET instead)
+- POST https://{api_url}/v1/records
+- GET https://{api_url}/v1
 ### Invalid Calls
-- GET https://3ce18bgshb.execute-api.eu-west-1.amazonaws.com/dev/v1/records   -> 404
+- GET https://{api_url}/v1/records   -> 404
 
 ### Sample Request Body
 
@@ -101,6 +92,3 @@ Lint the project by running `npm run lint` small fixes are done automaticallly.
 - [x] Deploy
 - [x] Pagination
 - [x] Authentication
-
-# Time Spent Building this 8hrs approx 
-
